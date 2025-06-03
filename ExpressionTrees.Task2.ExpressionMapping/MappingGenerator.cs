@@ -33,7 +33,15 @@ namespace ExpressionTrees.Task2.ExpressionMapping
 
                 if (sourceProp.PropertyType != targetProp.PropertyType)
                 {
-                    sourceValue = Expression.Convert(sourceValue, targetProp.PropertyType);
+                    if (targetProp.PropertyType == typeof(string) &&
+                        sourceProp.PropertyType.GetMethod("ToString", Type.EmptyTypes) != null)
+                    {
+                        sourceValue = Expression.Call(sourceValue, sourceProp.PropertyType.GetMethod("ToString", Type.EmptyTypes));
+                    }
+                    else
+                    {
+                        sourceValue = Expression.Convert(sourceValue, targetProp.PropertyType);
+                    }
                 }
 
                 bindings.Add(Expression.Bind(targetProp, sourceValue));
