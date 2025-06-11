@@ -19,6 +19,7 @@ namespace ExpressionTrees.Task2.ExpressionMapping.Tests
             var res = mapper.Map(new Foo());
         }
 
+
         [TestMethod]
         public void Should_Map_Foo_To_Bar_Correctly()
         {

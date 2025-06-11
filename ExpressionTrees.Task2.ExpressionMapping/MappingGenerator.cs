@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace ExpressionTrees.Task2.ExpressionMapping
 {
@@ -98,6 +97,15 @@ namespace ExpressionTrees.Task2.ExpressionMapping
             }
 
             var body = Expression.MemberInit(Expression.New(typeof(TDestination)), bindings);
+          
+        public Mapper<TSource, TDestination> Generate<TSource, TDestination>()
+        {
+            var sourceParam = Expression.Parameter(typeof(TSource));
+            var mapFunction =
+                Expression.Lambda<Func<TSource, TDestination>>(
+                    Expression.New(typeof(TDestination)),
+                    sourceParam
+                );
 
             Expression condition = Expression.Condition(
                 Expression.Equal(sourceParam, Expression.Constant(null, typeof(TSource))),
